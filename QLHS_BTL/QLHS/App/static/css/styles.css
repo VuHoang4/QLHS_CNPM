@@ -1,0 +1,166 @@
+.second-nav {
+    width: 100%; /* Chiếm toàn bộ chiều ngang */
+    padding: 0 20px; /* Khoảng cách giữa hai biên trái và phải */
+}
+
+.second-nav-item {
+    flex: 1; /* Tạo điều kiện cho các item chiếm đều không gian */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+
+.content {
+    margin-top: 20px;
+}
+
+
+
+.form-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    max-width: 600px; /* Chiều rộng tối đa của form */
+    margin: auto; /* Căn giữa form */
+    padding: 20px; /* Padding cho form */
+    background-color: #f8f9fa; /* Màu nền cho form */
+    border-radius: 5px; /* Bo góc */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Bóng đổ */
+}
+
+.button-group {
+    display: flex; /* Sử dụng Flexbox để căn giữa */
+    justify-content: center; /* Căn giữa các nút */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách trên các nút */
+}
+
+//dsLop-Giao vien
+.dropdown {
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none; /* Ẩn dropdown mặc định */
+        }
+        .dropdown-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
+//Het dsLop-khoi
+
+// dsLop-HS-Bang
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px; /* Khoảng cách giữa bảng và phân trang */
+}
+
+.table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+.table th {
+    border: 2px solid #007bff; /* Đường viền màu xanh cho tiêu đề */
+    padding: 12px; /* Khoảng cách trong ô */
+    text-align: center; /* Căn giữa chữ trong tiêu đề */
+    height: 50px; /* Đảm bảo chiều cao tiêu đề */
+    position: sticky;
+    top: 0; /* Để tiêu đề luôn nằm trên cùng khi cuộn */
+    background-color: #0056b3; /* Đổi màu nền tiêu đề cho dễ nhìn */
+}
+
+.table td {
+    border: 2px solid #007bff; /* Đường viền màu xanh cho tất cả các ô */
+    padding: 12px; /* Khoảng cách trong ô */
+    text-align: left; /* Căn trái chữ trong ô dữ liệu */
+    vertical-align: middle; /* Căn giữa chữ theo chiều dọc trong ô dữ liệu */
+    height: 50px; /* Đảm bảo các hàng có chiều cao cố định */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Màu nền cho hàng chẵn */
+}
+
+.table tbody tr:hover {
+    background-color: #e0e0e0; /* Màu nền khi di chuột qua hàng */
+}
+
+.table input[type="checkbox"] {
+    cursor: pointer; /* Con trỏ khi di chuột qua checkbox */
+}
+
+.empty-row {
+    height: 50px; /* Chiều cao cố định cho hàng trống */
+}
+
+/* Định dạng phân trang */
+.pagination {
+    display: flex;
+    justify-content: center; /* Căn giữa các nút phân trang */
+    margin-top: 10px;
+}
+
+.pagination button {
+    margin: 0 5px; /* Khoảng cách giữa các nút */
+    padding: 5px 10px; /* Khoảng cách trong nút */
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 5px; /* Bo tròn góc nút */
+}
+
+.pagination button:hover {
+    background-color: #ddd; /* Đổi màu khi hover */
+}
+
+.pagination .active {
+    font-weight: bold; /* Nhấn mạnh nút trang hiện tại */
+    background-color: #007bff; /* Màu nền cho trang hiện tại */
+    color: white; /* Màu chữ cho trang hiện tại */
+}
+
+.dots {
+    margin: 0 5px;
+    font-weight: bold;
+}
+// hết dsLop-HS-Bang
+//////
+.content-item {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+
+.label-highlight {
+    background-color: aqua; /* Màu nền nổi bật */
+    font-weight: bold; /* Làm cho chữ đậm hơn */
+    padding: 2px; /* Thêm khoảng đệm */
+    border-radius: 3px; /* Bo góc */
+    display: block; /* Đặt mỗi label trên một dòng mới */
+
+}
+.point-wrapper {
+    font-weight: bold;
+    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử theo hàng */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    margin-bottom: 5px;
+}
+
+.point-info {
+    margin-right: 8px; /* Khoảng cách giữa div và label */
+}
+
+.invalid-input {
+ border: 2px solid red !important;
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    margin: 5px !important;
+}

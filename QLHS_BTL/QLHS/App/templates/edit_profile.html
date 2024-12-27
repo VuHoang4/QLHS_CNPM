@@ -1,0 +1,53 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Chỉnh Sửa Thông Tin{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Chỉnh Sửa Thông Tin Tài Khoản</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert alert-warning">
+                {% for category, message in messages %}
+                    <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <form method="POST">
+    <div class="mb-3">
+        <label for="tenDangNhap" class="form-label">Tên Đăng Nhập</label>
+        <input type="text" class="form-control" id="tenDangNhap" name="tenDangNhap" value="{{ user.tenDangNhap }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="matKhau" class="form-label">Mật Khẩu</label>
+        <input type="password" class="form-control" id="matKhau" name="matKhau" value="**********" required>
+        <small class="form-text text-muted">Nhập mật khẩu mới nếu bạn muốn thay đổi.</small>
+    </div>
+
+    <div class="mb-3">
+        <label for="matKhauConfirm" class="form-label">Nhập Lại Mật Khẩu</label>
+        <input type="password" class="form-control" id="matKhauConfirm" name="matKhauConfirm" value="**********" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="tenNguoiDung" class="form-label">Tên Người Dùng</label>
+        <input type="text" class="form-control" id="tenNguoiDung" name="tenNguoiDung" value="{{ user.tenNguoiDung }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="avatar" class="form-label">Avatar (URL)</label>
+        <input type="text" class="form-control" id="avatar" name="avatar" value="{{ user.avatar }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+    </form>
+    <a href="{{ url_for('user_profile', tenDangNhap=user.tenDangNhap) }}" class="btn btn-secondary mt-3">Hủy</a>
+</div>
+{% endblock %}

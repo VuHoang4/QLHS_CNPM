@@ -1,0 +1,132 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark second-nav">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav me-auto d-flex justify-content-between w-100">
+                <li class="second-nav-item">
+                    <a class="nav-link" href="#nhapdiem" onclick="showContent('enter-grades')">Nhập Điểm Học Sinh</a>
+                </li>
+                <li class="second-nav-item">
+                    <a class="nav-link" href="#xuatdiem" onclick="showContent('export-grades')">Xuất Bảng Điểm</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="content" id="content">
+    <!-- Giao diện mặc định -->
+    <div id="default-view" class="default-view">
+        <h1>Chào mừng đến với Hệ Thống Quản Lý Học Sinh</h1>
+        <p>Mã người dùng: {{ current_user.maNguoiDung }}</p>
+        <p>Vui lòng chọn một trong các tùy chọn trên để bắt đầu.</p>
+        <img src="{{ url_for('static', filename='images/anhnen.jpg') }}" alt="Hình ảnh mô tả" class="img-fluid">
+    </div>
+
+    <!-- Giao Diện Nhập Điểm và Xuất Điểm -->
+    <div id="enter-grades" class="content-item" style="display: none;">
+        <h4>Nhập Điểm Học Sinh</h4>
+    </div>
+    <div id="export-grades" class="content-item" style="display: none;">
+        <h4>Xuất Bảng Điểm</h4>
+    </div>
+
+    <form id="common-form" style="max-width: 100%; display: none;" class="form-container" >
+        <div class="mb-3">
+            <label for="class" class="form-label">Lớp:</label>
+            <select class="form-control" id="class" required onchange="handleClassChange()">
+                <option value="">Chọn lớp...</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="subject" class="form-label">Môn:</label>
+            <select class="form-control" id="subject" required onchange="handleSelectChange()">
+                <option value="">Chọn môn...</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="academicYear" class="form-label">Năm học:</label>
+            <span class="form-control" id="academicYear">
+                {{ current_year }}-{{ current_year + 1 }}
+            </span>
+        </div>
+
+                <!-- Loại bỏ phần chọn kỳ học -->
+        <div class="mb-3" id="semester-container" style="display: none;">
+            <label for="semester" class="form-label">Kỳ học:</label>
+            <select class="form-control" id="semester" required onchange="handleSelectChange()">
+                <option value="">Chọn kỳ học...</option>
+            </select>
+        </div>
+
+
+        <table class="table table-bordered" id="studentTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên học sinh</th>
+                    <th>Điểm 15'</th>
+                    <th>Điểm 1 tiết</th>
+                    <th>Điểm thi</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody"></tbody>
+        </table>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">Lưu điểm</button>
+            <a href="/" class="btn btn-secondary" id="backButton">Trở về</a>
+        </div>
+    </form>
+
+
+
+
+    <!-- Bảng điểm môn học -->
+    <div class="table-responsive" id="score-table" style="display: none; margin-top: 20px;">
+        <h4 style="text-align: center;">BẢNG ĐIỂM MÔN HỌC</h4>
+        <p>Năm học: <span id="academicYearDisplay"></span></p>
+        <table class="table table-bordered" id="scoreTable">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ tên</th>
+                    <th>Lớp</th>
+                    <th>Điểm TB HK1</th>
+                    <th>Điểm TB HK2</th>
+                </tr>
+            </thead>
+            <tbody id="scoreTableBody">
+                <!-- Dữ liệu sẽ được nạp động ở đây -->
+            </tbody>
+        </table>
+        <button id="exportButton">Xuất PDF</button>
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+<script>
+    window.maNguoiDung = '{{ current_user.maNguoiDung }}'; // Gán giá trị cho biến toàn cục
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+<script src="{{ url_for('static', filename='js/giaovien.js') }}"></script>
+{% endblock %}

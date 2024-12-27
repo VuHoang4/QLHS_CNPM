@@ -1,0 +1,37 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Thông Tin Người Dùng{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: #f8f9fa; /* Màu nền nhẹ */
+    }
+</style>
+<div class="container mt-5">
+    <h1 class="text-center">Thông Tin Tài Khoản</h1>
+    <div class="card text-center shadow mb-4">
+        <div class="card-header">
+            Thông tin cá nhân
+        </div>
+        <div class="card-body">
+            <img src="{{ user.avatar }}" alt="Avatar" class="rounded-circle mb-3" width="150">
+            <h5 class="card-title">{{ user.tenNguoiDung }}</h5>
+            <p class="card-text">
+                <i class="bi bi-person-circle"></i> Tên Đăng Nhập: <strong>{{ user.tenDangNhap }}</strong>
+            </p>
+            <p class="card-text">
+                <i class="bi bi-envelope-fill"></i> Email: <strong>{{ user.email }}</strong>
+            </p>
+            <p class="card-text">
+                <i class="bi bi-envelope-fill"></i> Chức Vụ: <strong>{{ user.vaiTro.value }}</strong>
+            </p>
+            <a href="/" class="btn btn-primary" style="transition: 0.3s;">Về Trang Chủ</a>
+            <a href="/edit_profile" class="btn btn-secondary">Chỉnh Sửa Thông Tin</a>
+        </div>
+        <div class="card-footer text-muted">
+            Quản lý thông tin người dùng
+        </div>
+    </div>
+</div>
+{% endblock %}

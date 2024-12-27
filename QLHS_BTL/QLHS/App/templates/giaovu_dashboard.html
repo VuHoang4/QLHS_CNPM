@@ -1,0 +1,429 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark second-nav">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav me-auto d-flex justify-content-between w-100">
+                <li class="second-nav-item">
+                    <a class="nav-link" href="#tiepnhan" onclick="showContent('receive-student')">Tiếp Nhận Học Sinh</a>
+                </li>
+                <li class="second-nav-item">
+                    <a class="nav-link" href="#lapds" onclick="showContent('class-list')">Lập Danh Sách Lớp</a>
+                </li>
+                <li class="second-nav-item">
+                    <a class="nav-link" href="#dieuchinh" onclick="showContent('adjust-class')">Điều Chỉnh Lớp</a>
+                </li>
+                <li class="second-nav-item">
+                    <a class="nav-link" href="#quanly" onclick="showContent('manage-class-students')">Quản Lý Thông Tin HS</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="content" id="content">
+
+    <!-- Giao diện mặc định -->
+    <div id="default-view" class="default-view">
+        <h1>Chào mừng đến với Hệ Thống Quản Lý Học Sinh</h1>
+        <p>Vui lòng chọn một trong các tùy chọn trên để bắt đầu.</p>
+        <img src="{{ url_for('static', filename='images/anhnen.jpg') }}" alt="Hình ảnh mô tả" class="img-fluid">
+    </div>
+
+
+
+    <div id="receive-student" class="content-item" style="display: none;">
+    <div class="form-title">
+        <h4>Tiếp Nhận Học Sinh</h4>
+    </div>
+    <form class="form-container" id="student-fill-form">
+        <div class="mb-3">
+            <label for="fullName" class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" id="fullName" placeholder="Nguyễn Văn A" required>
+            <small class="form-text text-muted">Chỉ cho phép chữ cái và khoảng trắng.</small>
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">Ngày sinh</label>
+            <input type="date" class="form-control" id="dob" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Giới tính</label>
+            <div>
+                <input type="radio" id="male" name="gender" value="Nam" checked>
+                <label for="male">Nam</label>
+                <input type="radio" id="female" name="gender" value="Nữ">
+                <label for="female">Nữ</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Số điện thoại</label>
+            <input type="tel" class="form-control" id="phone" placeholder="0912345678" required>
+            <small class="form-text text-muted">Chỉ cho phép 10 chữ số.</small>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Địa chỉ</label>
+            <input type="text" class="form-control" id="address" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="example@gmail.com" required>
+        </div>
+        <div class="mb-3">
+            <label for="grade-level" class="form-label">Chọn Khối</label>
+            <select id="grade-level" class="form-select" required>
+                <option value="">Chọn Khối</option>
+                <option value="10">Khối 10</option>
+                <option value="11">Khối 11</option>
+                <option value="12">Khối 12</option>
+            </select>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a href="/" class="btn btn-secondary" onclick="confirmNavigation(event)">Trở về</a>
+        </div>
+    </form>
+    </div>
+
+
+
+    <div id="student-info" class="student-info content-item"  style="display: none;">
+        <h6 style="color: blue;">Lưu Thông Tin Học Sinh Thành Công !!</h6>
+        <h4 class="form-title" >HỒ SƠ HỌC SINH</h4>
+            <table class="table">
+                <tr>
+                    <td>Họ tên:</td>
+                    <td id="student-fullname"></td>
+                </tr>
+                <tr>
+                    <td>Giới tính:</td>
+                    <td id="student-gender"></td>
+                </tr>
+                <tr>
+                    <td>Ngày sinh:</td>
+                    <td id="student-dob"></td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ:</td>
+                    <td id="student-address"></td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại:</td>
+                    <td id="student-phone"></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td id="student-email"></td>
+                </tr>
+                <tr>
+                    <td>Khối:</td>
+                    <td id="student-grade"></td> <!-- Thêm dòng này để hiển thị khối -->
+                </tr>
+            </table>
+            <div class="button-group">
+                <a href="/" class="btn btn-secondary">Về trang chủ</a>
+                <a href="#" onclick="resetForm()" class="btn btn-primary">Tiếp tục thêm</a>
+            </div>
+    </div>
+
+
+
+
+
+    <div id="class-list" class="content-item" style="display:none;">
+    <h4>Lập Danh Sách Lớp</h4>
+    <form id="FormCreateClass">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="class-name" class="form-label">Nhập tên lớp</label>
+            <input type="text" class="form-control" id="class-name" placeholder="VD: 12C1" required>
+        </div>
+        <div class="col-md-4">
+            <label for="grade-level1" class="form-label">Chọn Khối</label>
+            <select id="grade-level1" class="form-select" required>
+                <option value="">Chọn Khối</option>
+                <option value="10">Khối 10</option>
+                <option value="11">Khối 11</option>
+                <option value="12">Khối 12</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="year-input" class="form-label">Chọn Năm Học</label>
+            <select id="year-input" class="form-select" required>
+                <option value="">Chọn Năm Học</option>
+                <option value="2023-2024">2023-2024</option>
+                <option value="2024-2025">2024-2025</option>
+                <option value="2025-2026">2025-2026</option>
+                <!-- Thêm các tùy chọn năm học khác nếu cần -->
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="teacher-search" class="form-label">Chọn giáo viên</label>
+            <input type="text" class="form-control" id="teacher-search" placeholder="Tìm giáo viên">
+            <div id="teacher-dropdown" class="dropdown"></div>
+            <select id="teacher-list" class="form-select mt-2">
+                <option value="">Chọn giáo viên</option>
+                <!-- Các tùy chọn giáo viên sẽ được nạp ở đây -->
+            </select>
+        </div>
+    </div>
+
+
+            <h5> Danh Sách Học Sinh</h5>
+           <table class="table table-bordered" id="table-list-student" >
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Số Thứ Tự</th>
+                        <th>Họ và tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th>Địa chỉ</th>
+                    </tr>
+                </thead>
+                <tbody id="student-list">
+                    <!-- Các hàng học sinh sẽ được nạp ở đây -->
+                </tbody>
+            </table>
+
+            <div class="pagination" id="pagination"></div>
+
+                        <!-- Thêm thẻ hiển thị tổng số dòng được chọn -->
+                    <div id="selected-count" class="selected-count">
+                       Số Lượng Học Sinh Được Chọn: <span id="count">0</span>
+                    </div>
+                 <div class="d-flex justify-content-between mt-4">
+                    <button type="submit"  id="save-class" class="btn btn-success">Lưu</button>
+                    <a href="/" class="btn btn-secondary" onclick="confirmNavigation(event)">Trở về trang chủ</a>
+                 </div>
+
+        </form>
+    </div>
+
+
+    <div id="student-list-success" class="content-item" style="display: none;">
+    <h6 class="text-primary">Lưu Thông Tin Lớp Học Thành Công !!</h6>
+    <h4 class="form-title">DANH SÁCH LỚP</h4>
+
+    <!-- Hiển thị thông tin lớp học -->
+        <div class="mb-4 p-3 border rounded bg-light">
+        <h5 class="mb-3">Thông Tin Lớp Học</h5>
+        <div class="mb-2">
+            <strong>Tên lớp:</strong> <span id="class-name-display" class="fw-bold"></span>
+        </div>
+        <div class="mb-2">
+            <strong>Giáo viên chủ nhiệm:</strong> <span id="teacher-name-display" class="fw-bold"></span>
+        </div>
+        <div class="mb-2">
+            <strong>Khối:</strong> <span id="grade-level-display" class="fw-bold"></span>
+        </div>
+        <div class="mb-2">
+            <strong>Năm học:</strong> <span id="year-display" class="fw-bold"></span>
+        </div>
+        </div>
+
+    <table class="table table-striped table-bordered" >
+        <thead class="table-light">
+            <tr>
+                <th>Số Thứ Tự</th>
+                <th>Họ và tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Địa chỉ</th>
+            </tr>
+        </thead>
+        <tbody id="student-list-success-body">
+            <!-- Các hàng học sinh sẽ được nạp ở đây -->
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="/" class="btn btn-secondary" onclick="confirmNavigation(event)">Trở về trang chủ</a>
+        <a href="#" onclick="continueAdding()" class="btn btn-primary">Tiếp tục thêm</a>
+    </div>
+    </div>
+
+
+
+<!--DieuChinhLop-->
+<div id="adjust-class" class="content-item" style="display: none;">
+    <h4 class="mb-4">Điều Chỉnh Lớp</h4>
+
+    <div class="mb-3">
+        <label for="academic-year" class="form-label">Năm Học</label>
+        <select id="academic-year" class="form-select" onchange="loadClasses()">
+            <option value="">Chọn Năm Học</option>
+            <option value="2023-2024">2023-2024</option>
+            <option value="2024-2025">2024-2025</option>
+            <!-- Thêm các năm học khác nếu cần -->
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="grade" class="form-label">Khối</label>
+        <select id="grade-select" class="form-select" onchange="loadClasses()">
+            <option value="">Chọn Khối</option>
+            <option value="10">Khối 10</option>
+            <option value="11">Khối 11</option>
+            <option value="12">Khối 12</option>
+        </select>
+    </div>
+
+    <div id="class-list-container" class="mt-4">
+        <h5>Danh Sách Lớp</h5>
+        <ul id="class-list-items" class="list-group">
+            <!-- Danh sách lớp sẽ được nạp ở đây -->
+        </ul>
+    </div>
+
+    <div id="class-details" class="border rounded p-4 shadow-sm mt-4" style="display: none;">
+    <h5>Thông Tin Lớp</h5>
+    <div id="class-info">
+        <p><strong>Tên Lớp:</strong>
+            <span id="class-name-details"></span>
+        </p>
+        <button class="btn btn-warning btn-sm" id="edit-class-button" onclick="showEditClassPopup()">Chỉnh Sửa</button>
+        <p><strong>Sĩ Số:</strong> <span id="class-size-details"></span></p>
+    </div>
+    <h6 class="mt-4">Danh Sách Học Sinh</h6>
+    <button class="btn btn-primary mb-3" onclick="showAddStudentPopup()">Thêm Học Sinh</button>
+    <ul id="student-list-details" class="list-group">
+        <!-- Danh sách học sinh sẽ được nạp ở đây -->
+    </ul>
+    </div>
+</div>
+
+    <!-- Popup Chỉnh Sửa Thông Tin Lớp -->
+    <div class="modal fade" id="editClassModal" tabindex="-1" aria-labelledby="editClassModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editClassModalLabel">Chỉnh Sửa Thông Tin Lớp</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="edit-class-name" class="form-label">Tên Lớp</label>
+                        <input type="text" class="form-control" id="edit-class-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-class-size" class="form-label">Sĩ Số</label>
+                        <input type="text" class="form-control" id="edit-class-size" disabled>
+                    </div>
+<!--                    <div class="mb-3">-->
+<!--                        <label for="edit-grade" class="form-label">Khối</label>-->
+<!--                        <input type="text" class="form-control" id="edit-grade" disabled>-->
+<!--                    </div>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="save-edit-class" onclick="saveClassEdit()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Popup Thêm Học Sinh -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStudentModalLabel">Thêm Học Sinh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="student_id_input" class="form-label">Mã Học Sinh</label>
+                    <input type="text" class="form-control" id="student_id_input" placeholder="Nhập mã học sinh">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="searchStudent()">Tìm Kiếm</button>
+
+                <div id="student_info_container" class="border rounded p-4 shadow-sm mt-3" style="display: none;">
+                    <h5>Thông Tin Học Sinh</h5>
+                    <div id="student_info_card" class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" id="student_name" style="font-weight: bold; color: blue; text-align: center;"></h5>
+                            <p class="card-text"><strong>Mã Học Sinh:</strong> <span id="student_id_display"></span></p>
+                            <p class="card-text"><strong>Ngày Sinh:</strong> <span id="student_dob_display"></span></p>
+                            <p class="card-text"><strong>Giới Tính:</strong> <span id="student_gender_display"></span></p>
+                            <p class="card-text"><strong>Địa Chỉ:</strong> <span id="student_address_display"></span></p>
+                            <p class="card-text"><strong>Số Điện Thoại:</strong> <span id="student_phone_display"></span></p>
+                            <p class="card-text"><strong>Email:</strong> <span id="student_email_display"></span></p>
+                        </div>
+                    </div>
+                    <div id="not_found_message" class="text-danger mt-3" style="display: none;">Không tìm thấy học sinh.</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="add_student_button" onclick="confirmAddStudent()">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--    Thong tin HS-QLHS-->
+    <div id="manage-class-students" class="content-item" style="display: none;">
+    <h4 class="mb-4">Quản Lý Thông Tin Học Sinh</h4>
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Tìm Kiếm Học Sinh</h5>
+            <form id="search-student-form" class="form-container">
+                <div class="mb-3">
+                    <label for="student_manage-id" class="form-label">Mã Học Sinh</label>
+                    <input type="text" class="form-control" id="student_manage-id" placeholder="Nhập mã học sinh">
+                </div>
+                <button type="button" class="btn btn-primary w-100" onclick="searchStudents()">Tìm Kiếm</button>
+            </form>
+        </div>
+
+        <div class="col-md-8">
+            <h5>Thông Tin Học Sinh</h5>
+            <div id="student-info-container" class="border rounded p-4 shadow-sm">
+                <div id="student_manage-info-card" class="card" style="display: none;">
+                    <div class="card-body">
+                        <h5 class="card-title" id="student_manage-name" style="font-weight: bold;color:blue;text-align:center"></h5>
+                        <p class="card-text"><strong>Mã Học Sinh:</strong> <span id="student_manage-id-display"></span></p>
+                        <div class="mb-3">
+                            <strong>Ngày Sinh:</strong>
+                            <input type="date" class="form-control" id="student_manage-dob" onchange="markChanged()">
+                        </div>
+                        <p class="card-text"><strong>Giới Tính:</strong>
+                            <select id="student_manage-gender" class="form-select" onchange="markChanged()">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </p>
+                        <div class="mb-3">
+                            <strong>Địa Chỉ:</strong>
+                            <input type="text" class="form-control" id="student_manage-address" onchange="markChanged()">
+                        </div>
+                        <div class="mb-3">
+                            <strong>Số Điện Thoại:</strong>
+                            <input type="tel" class="form-control" id="student_manage-phone" onchange="markChanged()">
+                        </div>
+                        <div class="mb-3">
+                            <strong>Email:</strong>
+                            <input type="email" class="form-control" id="student_manage-email" onchange="markChanged()">
+                        </div>
+                        <button class="btn btn-success" onclick="confirmSave()">Lưu Thay Đổi</button>
+                    </div>
+                </div>
+            </div>
+            <div id="not-found-message" class="text-danger mt-3" style="display: none;">Không tìm thấy học sinh.</div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="{{ url_for('static', filename='js/giaovu.js') }}"></script>
+{% endblock %}
